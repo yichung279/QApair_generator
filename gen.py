@@ -15,7 +15,7 @@ store = {
     }
 }
 
-heads = ['你好，', '請問', '']
+heads = ['請問，', '']
 
 def timeQ_template (head, adj, store):
     return [
