@@ -1,4 +1,5 @@
 import json
+import random
 with open('data.json', 'r') as file1:
     store = json.loads(file1.read())
 
@@ -30,7 +31,10 @@ def gen_QA(Qlist, Alist, comments):
     for Q in Qlist:
         for A in Alist:
             for comment in comments:
-                QApair.append([Q, A+comment])
+                if random.randint(1, 100) % 2:
+                    QApair.append([Q, A + comment])
+                else:
+                    QApair.append([Q, comment + '，' + A])
     return QApair
 
 if __name__ == "__main__":
@@ -39,4 +43,5 @@ if __name__ == "__main__":
         adjs = [adj for adj in store[v]['adjs']]
         Qlist = timeQ_template(heads, adjs, v)
         Alist = timeA_template(adjs, v, store[v]['time'])
-        print(gen_QA(Qlist, Alist, store[v]['comments']))
+        print(len(gen_QA(Qlist, Alist, store[v]['comments'])))
+        #print(gen_QA(Qlist, Alist, store[v]['comments']))
