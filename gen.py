@@ -1,19 +1,7 @@
-store = {
-    '小茂屋': {
-        'adjs': ['長榮路上的', ''],
-        'time': '10:00-20:00',
-        'loc': '長榮路',
-        'tel': '09xxxxxxxx',
-        'comments': ['', '第一句', '第二句']
-    }, 
-    '再發號': {
-        'adjs': ['百年老店', ''],
-        'time': '10:00-20:00',
-        'loc': '??路',
-        'tel': '06xxxxxxxx',
-        'comments': ['', '第三句', '第四句']
-    }
-}
+import json
+with open('data.json', 'r') as file1:
+    store = json.loads(file1.read())
+
 
 heads = ['請問', '']
 
@@ -51,4 +39,4 @@ if __name__ == "__main__":
         adjs = [adj for adj in store[v]['adjs']]
         Qlist = timeQ_template(heads, adjs, v)
         Alist = timeA_template(adjs, v, store[v]['time'])
-        print(len(gen_QA(Qlist, Alist, store[v]['comments'])))
+        print(gen_QA(Qlist, Alist, store[v]['comments']))
