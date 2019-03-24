@@ -61,6 +61,10 @@ def phoneA_template (adj, store, phone):
         answer.append(f'{phone}是{adj}{store}的電話。')
     return answer
 
+def select(pair, num):
+    random.shuffle(pair)
+    return pair[:num]
+
 def gen_QA(Qlist, Alist, comments):
     QApair = []
     for Q in Qlist:
@@ -78,15 +82,16 @@ if __name__ == "__main__":
         adjs = [adj for adj in store[v]['adjs']]
         Qlist = timeQ_template(heads, adjs, v)
         Alist = timeA_template(adjs, v, store[v]['time'])
-        QApair += gen_QA(Qlist, Alist, store[v]['comments'])
+        QApair += select(gen_QA(Qlist, Alist, store[v]['comments']), 5)
 
         Qlist = locationQ_template(heads, adjs, v)
         Alist = locationA_template(adjs, v, store[v]['loc'])
-        QApair += gen_QA(Qlist, Alist, store[v]['comments'])
+        QApair += select(gen_QA(Qlist, Alist, store[v]['comments']), 5)
 
         Qlist = phoneQ_template(heads, adjs, v)
         Alist = phoneA_template(adjs, v, store[v]['phone'])
-        QApair += gen_QA(Qlist, Alist, store[v]['comments'])
+        QApair += select(gen_QA(Qlist, Alist, store[v]['comments']), 5)
     random.shuffle(QApair)
-    print(QApair[:1000])
+    for v in QApair:
+        print(v)
 
