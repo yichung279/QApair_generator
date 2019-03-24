@@ -44,6 +44,22 @@ def locationA_template (adj, store, location):
         answer.append(f'在{location}就能找到{adj}{store}。')
     return answer
 
+def phoneQ_template(heads, adj, store):
+    question = []
+    for head in heads:
+        for adj in adjs:
+            question.append(f'{head}{adj}{store}的電話是幾號？')
+            question.append(f'{head}我該怎麼聯絡{adj}{store}？')
+            question.append(f'{head}{adj}{store}電話多少?')
+    return question
+
+def phoneA_template (adj, store, phone):
+    answer = []
+    for adj in adjs:
+        answer.append(f'{adj}{store}的電話是{phone}。')
+        answer.append(f'打{phone}就能聯絡到{adj}{store}。')
+        answer.append(f'{phone}是{adj}{store}的電話。')
+    return answer
 
 def gen_QA(Qlist, Alist, comments):
     QApair = []
@@ -57,12 +73,20 @@ def gen_QA(Qlist, Alist, comments):
     return QApair
 
 if __name__ == "__main__":
+    QApair = []
     for v in store.keys():
-        print(v+':')
         adjs = [adj for adj in store[v]['adjs']]
-        #Qlist = timeQ_template(heads, adjs, v)
-        #Alist = timeA_template(adjs, v, store[v]['time'])
+        Qlist = timeQ_template(heads, adjs, v)
+        Alist = timeA_template(adjs, v, store[v]['time'])
+        QApair += gen_QA(Qlist, Alist, store[v]['comments'])
+
         Qlist = locationQ_template(heads, adjs, v)
         Alist = locationA_template(adjs, v, store[v]['loc'])
-        print(len(gen_QA(Qlist, Alist, store[v]['comments'])))
-        #print(gen_QA(Qlist, Alist, store[v]['comments']))
+        QApair += gen_QA(Qlist, Alist, store[v]['comments'])
+
+        Qlist = phoneQ_template(heads, adjs, v)
+        Alist = phoneA_template(adjs, v, store[v]['phone'])
+        QApair += gen_QA(Qlist, Alist, store[v]['comments'])
+    random.shuffle(QApair)
+    print(QApair[:1000])
+

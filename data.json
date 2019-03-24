@@ -3,7 +3,7 @@
         "adjs": ["熱門宵夜", "成大美食", ""],
         "time": "10:00-20:00",
         "loc": "長榮路",
-        "tel": "09xxxxxxxx",
+        "phone": "09xxxxxxxx",
         "food" : ["鍋燒意麵", "紅茶"],
         "comments": [
                 "好吃的鍋燒意麵配紅茶",
@@ -15,7 +15,7 @@
         "adjs": ["百年老店", ""],
         "time": "10:00-20:00",
         "loc": "??路",
-        "tel": "06xxxxxxxx",
+        "phone": "06xxxxxxxx",
         "comments": ["第三句", "第四句", ""]
     }
 }
