@@ -1,8 +1,9 @@
 import json
 import random
+import xlsxwriter
+
 with open('data.json', 'r') as file1:
     store = json.loads(file1.read())
-
 
 heads = ['請問', '']
 
@@ -82,16 +83,18 @@ if __name__ == "__main__":
         adjs = [adj for adj in store[v]['adjs']]
         Qlist = timeQ_template(heads, adjs, v)
         Alist = timeA_template(adjs, v, store[v]['time'])
-        QApair += select(gen_QA(Qlist, Alist, store[v]['comments']), 5)
+        QApair += select(gen_QA(Qlist, Alist, store[v]['comments']), 34)
 
         Qlist = locationQ_template(heads, adjs, v)
         Alist = locationA_template(adjs, v, store[v]['loc'])
-        QApair += select(gen_QA(Qlist, Alist, store[v]['comments']), 5)
+        QApair += select(gen_QA(Qlist, Alist, store[v]['comments']), 33)
 
         Qlist = phoneQ_template(heads, adjs, v)
         Alist = phoneA_template(adjs, v, store[v]['phone'])
-        QApair += select(gen_QA(Qlist, Alist, store[v]['comments']), 5)
+        QApair += select(gen_QA(Qlist, Alist, store[v]['comments']), 33)
     random.shuffle(QApair)
-    for v in QApair:
-        print(v)
-
+    with xlsxwriter.Workbook('QA.xlsx') as workbook:
+        worksheet = workbook.add_worksheet()
+        for i, v in enumerate(QApair):
+            worksheet.write(i, 0, v[0])
+            worksheet.write(i, 1, v[1])
