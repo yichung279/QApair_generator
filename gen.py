@@ -79,6 +79,9 @@ def gen_QA(Qlist, Alist, comments):
 
 if __name__ == "__main__":
     QApair = []
+    file1 = open('./store_dic.txt', 'w')
+    file2 = open('./loc_dic.txt', 'w')
+    file3 = open('./food_dic.txt', 'w')
     for v in store.keys():
         adjs = [adj for adj in store[v]['adjs']]
         Qlist = timeQ_template(heads, adjs, v)
@@ -92,9 +95,21 @@ if __name__ == "__main__":
         Qlist = phoneQ_template(heads, adjs, v)
         Alist = phoneA_template(adjs, v, store[v]['phone'])
         QApair += select(gen_QA(Qlist, Alist, store[v]['comments']), 33)
+
+        ### txt
+        file1.write(f'{v}，')
+        file2.write(f'{store[v]["loc"]}，')
+        for i in store[v]['food']:
+            file3.write(f'{i}，')
+
+    file1.close()
+    file2.close()
+    file3.close()
     random.shuffle(QApair)
     with xlsxwriter.Workbook('QA.xlsx') as workbook:
         worksheet = workbook.add_worksheet()
         for i, v in enumerate(QApair):
             worksheet.write(i, 0, v[0])
             worksheet.write(i, 1, v[1])
+
+
