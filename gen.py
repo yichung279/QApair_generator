@@ -74,7 +74,8 @@ def gen_QA(Qlist, Alist, comments):
                 if random.randint(1, 100) % 2:
                     QApair.append([Q, A + comment])
                 else:
-                    QApair.append([Q, comment + '，' + A])
+                    if comment:
+                        QApair.append([Q, comment + '，' + A])
     return QApair
 
 if __name__ == "__main__":
@@ -86,15 +87,15 @@ if __name__ == "__main__":
         adjs = [adj for adj in store[v]['adjs']]
         Qlist = timeQ_template(heads, adjs, v)
         Alist = timeA_template(adjs, v, store[v]['time'])
-        QApair += select(gen_QA(Qlist, Alist, store[v]['comments']), 34)
+        QApair += select(gen_QA(Qlist, Alist, store[v]['comments']), 15)
 
         Qlist = locationQ_template(heads, adjs, v)
         Alist = locationA_template(adjs, v, store[v]['loc'])
-        QApair += select(gen_QA(Qlist, Alist, store[v]['comments']), 33)
+        QApair += select(gen_QA(Qlist, Alist, store[v]['comments']), 15)
 
         Qlist = phoneQ_template(heads, adjs, v)
         Alist = phoneA_template(adjs, v, store[v]['phone'])
-        QApair += select(gen_QA(Qlist, Alist, store[v]['comments']), 33)
+        QApair += select(gen_QA(Qlist, Alist, store[v]['comments']), 15)
 
         ### txt
         file1.write(f'{v}，')
