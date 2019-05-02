@@ -62,7 +62,8 @@ def phoneA_template (adj, store, phone):
         answer.append(f'{phone}是{adj}{store}的電話。')
     return answer
 
-def select(pair, num):
+def select(pair):
+    num = int(0.015 * len(pair))
     random.shuffle(pair)
     return pair[:num]
 
@@ -87,15 +88,15 @@ if __name__ == "__main__":
         adjs = [adj for adj in store[v]['adjs']]
         Qlist = timeQ_template(heads, adjs, v)
         Alist = timeA_template(adjs, v, store[v]['time'])
-        QApair += select(gen_QA(Qlist, Alist, store[v]['comments']), 15)
+        QApair += select(gen_QA(Qlist, Alist, store[v]['comments']))
 
         Qlist = locationQ_template(heads, adjs, v)
         Alist = locationA_template(adjs, v, store[v]['loc'])
-        QApair += select(gen_QA(Qlist, Alist, store[v]['comments']), 15)
+        QApair += select(gen_QA(Qlist, Alist, store[v]['comments']))
 
         Qlist = phoneQ_template(heads, adjs, v)
         Alist = phoneA_template(adjs, v, store[v]['phone'])
-        QApair += select(gen_QA(Qlist, Alist, store[v]['comments']), 15)
+        QApair += select(gen_QA(Qlist, Alist, store[v]['comments']))
 
         ### txt
         file1.write(f'{v}，')
@@ -107,6 +108,7 @@ if __name__ == "__main__":
     file2.close()
     file3.close()
     random.shuffle(QApair)
+    print(f'number of data = {len(QApair)}')
     with xlsxwriter.Workbook('QA.xlsx') as workbook:
         worksheet = workbook.add_worksheet()
         for i, v in enumerate(QApair):
